@@ -271,10 +271,32 @@ function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     const homeBtn = document.querySelector('.home-btn');
+    const bgMusic = document.getElementById('bgMusic');
+    const cardMusic = document.getElementById('cardMusic');
+    
     if (pageId === 'home') {
         homeBtn.classList.remove('show');
+        bgMusic.volume = 0.3;
+        bgMusic.muted = isMuted;
+        bgMusic.play().catch(() => {});
+        cardMusic.pause();
     } else {
         homeBtn.classList.add('show');
+    }
+    
+    if (pageId === 'quiz') {
+        bgMusic.volume = 0.3;
+        bgMusic.muted = isMuted;
+        bgMusic.play().catch(() => {});
+        cardMusic.pause();
+    } else if (pageId === 'cardMode') {
+        bgMusic.pause();
+        cardMusic.volume = 0.3;
+        cardMusic.muted = isMuted;
+        cardMusic.play().catch(() => {});
+    } else if (pageId === 'results' || pageId === 'favorites') {
+        bgMusic.pause();
+        cardMusic.pause();
     }
 }
 
@@ -295,9 +317,6 @@ function showToast(message) {
 
 function startQuiz() {
     playSound('click');
-    const bgMusic = document.getElementById('bgMusic');
-    bgMusic.volume = 0.3;
-    bgMusic.play().catch(() => {});
     document.querySelector('.mute-btn').classList.add('show');
     currentQuestion = 0;
     userAnswers = {};
@@ -415,12 +434,6 @@ function calculateMatches() {
 }
 
 function showResults() {
-    const bgMusic = document.getElementById('bgMusic');
-    const cardMusic = document.getElementById('cardMusic');
-    bgMusic.pause();
-    bgMusic.currentTime = 0;
-    cardMusic.pause();
-    cardMusic.currentTime = 0;
     const top3 = matchedPets.slice(0, 3);
     const html = top3.map((pet, i) => createPetCard(pet, i)).join('');
     document.getElementById('topMatches').innerHTML = html;
@@ -514,12 +527,6 @@ function createPetCard(pet, index = 0) {
 }
 
 function showCardMode() {
-    const bgMusic = document.getElementById('bgMusic');
-    const cardMusic = document.getElementById('cardMusic');
-    bgMusic.pause();
-    cardMusic.volume = 0.3;
-    cardMusic.muted = isMuted;
-    cardMusic.play().catch(() => {});
     currentCardIndex = 3;
     document.getElementById('cardModeTitle').textContent = `${userName}的挑宠物之旅 🐾`;
     showPage('cardMode');
@@ -611,7 +618,14 @@ function randomDraw() {
                             sadAnimation();
                             const messages = [
                                 `${pet.name}："没关系，祝你找到更合适的～"`,
-                                `${pet.name}："我会等下一个有缘人的！"`
+                                `${pet.name}："我会等下一个有缘人的！"`,
+                                `${pet.name}："也许我们缘分未到呢～"`,
+                                `${pet.name}："希望你能找到心仪的伙伴！"`,
+                                `${pet.name}："虽然有点失落，但我会继续等待的..."`,
+                                `${pet.name}："${userName}，祝你幸福哦～"`,
+                                `${pet.name}："不是每段缘分都能开花结果呢..."`,
+                                `${pet.name}："我会找到真正懂我的人的！"`,
+                                `${pet.name}："也许下一个会更适合你～"`
                             ];
                             showToast(messages[Math.floor(Math.random() * messages.length)]);
                             setTimeout(() => {
@@ -717,7 +731,15 @@ function renderCard() {
                 const pet = matchedPets[currentCardIndex];
                 sadAnimation();
                 const messages = [
-                    `${pet.name}："没关系，祝你找到更合适的～"`
+                    `${pet.name}："没关系，祝你找到更合适的～"`,
+                    `${pet.name}："我会等下一个有缘人的！"`,
+                    `${pet.name}："也许我们缘分未到呢～"`,
+                    `${pet.name}："希望你能找到心仪的伙伴！"`,
+                    `${pet.name}："虽然有点失落，但我会继续等待的..."`,
+                    `${pet.name}："${userName}，祝你幸福哦～"`,
+                    `${pet.name}："不是每段缘分都能开花结果呢..."`,
+                    `${pet.name}："我会找到真正懂我的人的！"`,
+                    `${pet.name}："也许下一个会更适合你～"`
                 ];
                 showToast(messages[Math.floor(Math.random() * messages.length)]);
                 setTimeout(() => {
