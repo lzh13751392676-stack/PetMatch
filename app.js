@@ -488,6 +488,8 @@ function renderMatchCards() {
     }
 }
 
+const matchPercentages = [95, 88, 75];
+
 function createMatchCard(pet, index) {
     const card = document.createElement('div');
     card.className = 'match-card';
@@ -496,9 +498,14 @@ function createMatchCard(pet, index) {
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', `${pet.name}，匹配度 ${pet.finalScore}%`);
     
-    // 计算匹配度百分比，每个卡片不同
-    const basePercent = [95, 88, 75][index] || 80;
-    const matchPercent = basePercent + Math.floor(Math.random() * 3) - 1;
+    const gradients = [
+        'linear-gradient(135deg, #FFE5E5 0%, #FFF0F0 100%)',
+        'linear-gradient(135deg, #E5F3FF 0%, #F0F8FF 100%)',
+        'linear-gradient(135deg, #F5E5FF 0%, #FAF0FF 100%)'
+    ];
+    
+    const matchPercent = matchPercentages[currentMatchIndex + index] || 80;
+    card.style.background = gradients[index % 3];
     
     card.innerHTML = `
         <img src="${pet.image || 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400'}" 

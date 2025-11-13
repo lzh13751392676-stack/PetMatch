@@ -23,12 +23,11 @@
     <div id="app">
         <section id="home" class="page active">
             <div class="hero-new">
-                <div class="greeting" id="greeting"></div>
                 
                 <div class="hero-content">
                     <h1 class="hero-title">🐾 宠物匹配屋</h1>
                     <p class="hero-subtitle">帮你遇见命中注定的小可爱</p>
-                    <p class="hero-desc">2 个小问题 → 为你挑选 3 张最适合你的宠物卡片</p>
+                    <p class="hero-desc">几个小问题 → 为你挑选 3 张最适合你的宠物卡片</p>
                     
                     <div class="card-stack-hero">
                         <div class="hero-card hero-card-3">
@@ -84,7 +83,7 @@
         </section>
 
         <section id="results" class="page">
-            <div class="container">
+            <div class="container results-container">
                 <h2 class="section-title">💗 为你挑出的 3 位最佳匹配</h2>
                 
                 <div class="match-card-stack" id="matchCardStack" role="region" aria-label="匹配结果卡片">
@@ -148,10 +147,17 @@
     <script src="data3.js"></script>
     <script src="app.js"></script>
     <script>
-        document.getElementById('greeting').textContent = getGreeting();
         document.addEventListener('click', e => {
             if (e.target.matches('.btn-primary, .btn-secondary, .btn-icon')) createRipple(e);
         });
+        
+        document.addEventListener('click', function initMusic() {
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.3;
+            bgMusic.muted = isMuted;
+            bgMusic.play().catch(() => {});
+            document.removeEventListener('click', initMusic);
+        }, { once: true });
     </script>
 </body>
 </html>

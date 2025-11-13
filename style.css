@@ -417,19 +417,28 @@ body {
     box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
 }
 
+.results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 60px 20px 40px;
+}
+
 .match-card-stack {
     position: relative;
-    width: 86%;
-    max-width: 400px;
-    margin: 40px auto;
+    width: 90%;
+    max-width: 380px;
+    margin: 20px auto;
     height: 520px;
 }
 
 .match-card {
     position: absolute;
     width: 100%;
-    background: white;
-    border-radius: 16px;
+    background: linear-gradient(135deg, #FFE5E5 0%, #FFF0F0 100%);
+    border-radius: 20px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
     padding: 30px 20px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -478,6 +487,7 @@ body {
     object-fit: cover;
     border: 4px solid #FFE5D9;
     box-shadow: 0 4px 12px rgba(255, 154, 139, 0.3);
+    display: block;
 }
 
 .match-card-name {
@@ -1603,8 +1613,14 @@ body {
         font-size: 1em;
     }
     
+    .results-container {
+        padding: 80px 15px 40px;
+    }
+    
     .match-card-stack {
         height: 480px;
+        width: 95%;
+        max-width: 350px;
     }
     
     .match-card {
