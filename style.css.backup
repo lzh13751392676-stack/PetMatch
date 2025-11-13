@@ -70,7 +70,12 @@ body {
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
     z-index: 1000;
     transition: all 0.3s;
-    display: block !important;
+    display: none;
+}
+
+.mute-btn.show {
+    display: block;
+    animation: fadeIn 0.5s;
 }
 
 .mute-btn:hover {
@@ -281,7 +286,7 @@ body {
 }
 
 .greeting {
-    font-size: 1em;
+    font-size: 1.2em;
     color: #FF9A8B;
     margin-bottom: 20px;
     animation: fadeInDown 1s ease;

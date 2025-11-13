@@ -1,0 +1,254 @@
+/* ========== 新首页Hero样式 ========== */
+
+.hero-new {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.hero-title {
+    font-size: 3em;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FF9A8B 0%, #FF6A88 50%, #FF9A8B 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+    animation: shine 3s linear infinite;
+}
+
+.hero-subtitle {
+    font-size: 1.4em;
+    color: #FF6A88;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.hero-desc {
+    font-size: 0.95em;
+    color: #999;
+    margin-bottom: 40px;
+}
+
+/* 卡片堆叠 */
+.card-stack-hero {
+    position: relative;
+    width: 280px;
+    height: 360px;
+    margin: 0 auto 50px;
+}
+
+.hero-card {
+    position: absolute;
+    width: 100%;
+    height: 340px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #FFE5E5 0%, #FFF0F0 100%);
+    box-shadow: 0 20px 60px rgba(255, 154, 139, 0.25);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.hero-card-1 {
+    z-index: 3;
+    left: 0;
+    top: 0;
+    animation: cardFloat 3s ease-in-out infinite;
+}
+
+.hero-card-2 {
+    z-index: 2;
+    left: 60px;
+    top: 20px;
+    transform: rotate(3deg) scale(0.95);
+    opacity: 0.8;
+    background: linear-gradient(135deg, #E5F3FF 0%, #F0F8FF 100%);
+}
+
+.hero-card-3 {
+    z-index: 1;
+    left: 120px;
+    top: 40px;
+    transform: rotate(-3deg) scale(0.9);
+    opacity: 0.6;
+    background: linear-gradient(135deg, #F5E5FF 0%, #FAF0FF 100%);
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.hero-card-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 30px;
+}
+
+.hero-card-emoji {
+    font-size: 6em;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 12px rgba(255, 154, 139, 0.3));
+}
+
+.hero-card-name {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #FF6A88;
+    margin-bottom: 10px;
+}
+
+.hero-card-hint {
+    font-size: 0.9em;
+    color: #999;
+    margin-top: 20px;
+}
+
+/* 主CTA按钮 */
+.btn-hero-primary {
+    position: relative;
+    padding: 18px 60px;
+    font-size: 1.3em;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #FF9A8B 0%, #FF6A88 100%);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(255, 106, 136, 0.4);
+    transition: all 0.3s;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(255, 106, 136, 0.6);
+}
+
+.btn-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: btnGlow 3s linear infinite;
+}
+
+@keyframes btnGlow {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+/* 快速入口 */
+.quick-entry {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.quick-card {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(255, 154, 139, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.quick-card:hover {
+    transform: scale(1.1);
+}
+
+.quick-emoji {
+    font-size: 2em;
+}
+
+.btn-quick {
+    padding: 12px 28px;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #FF6A88;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 154, 139, 0.2);
+    transition: all 0.3s;
+}
+
+.btn-quick:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.2em;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2em;
+    }
+    
+    .card-stack-hero {
+        width: 240px;
+        height: 320px;
+    }
+    
+    .hero-card {
+        height: 300px;
+    }
+    
+    .hero-card-2 {
+        left: 50px;
+    }
+    
+    .hero-card-3 {
+        left: 100px;
+    }
+    
+    .hero-card-emoji {
+        font-size: 4.5em;
+    }
+    
+    .hero-card-name {
+        font-size: 1.5em;
+    }
+    
+    .btn-hero-primary {
+        padding: 16px 50px;
+        font-size: 1.1em;
+    }
+    
+    .greeting {
+        font-size: 0.9em;
+    }
+}

@@ -64,7 +64,7 @@ function getGreeting() {
     if (hour < 12) return '☀️ 上午好！今天也要元气满满';
     if (hour < 14) return '🌞 中午好！要记得休息哦';
     if (hour < 18) return '🌤️ 下午好！来找个毛孩子吧';
-    if (hour < 22) return '🌆 晚上好！放松一下吧';
+    if (hour < 22) return '🌆 晚安！';
     return '🌙 夜深了，早点休息哦';
 }
 
@@ -294,7 +294,12 @@ function showPage(pageId) {
         cardMusic.volume = 0.3;
         cardMusic.muted = isMuted;
         cardMusic.play().catch(() => {});
-    } else if (pageId === 'results' || pageId === 'favorites') {
+    } else if (pageId === 'results') {
+        bgMusic.volume = 0.3;
+        bgMusic.muted = isMuted;
+        bgMusic.play().catch(() => {});
+        cardMusic.pause();
+    } else if (pageId === 'favorites') {
         bgMusic.pause();
         cardMusic.pause();
     }
@@ -381,6 +386,15 @@ function previousQuestion() {
     }
 }
 
+function quickStartCard() {
+    if (!userName) userName = '游客';
+    if (matchedPets.length === 0) {
+        questions.forEach(q => { userAnswers[q.id] = q.options[1]; });
+        calculateMatches();
+    }
+    showCardMode();
+}
+
 function submitName() {
     const input = document.getElementById('nameInput');
     if (input.value.trim()) {
@@ -443,13 +457,201 @@ function calculateMatches() {
     showResults();
 }
 
+let currentMatchIndex = 0;
+let matchCards = [];
+
 function showResults() {
     const top3 = matchedPets.slice(0, 3);
-    const html = top3.map((pet, i) => createPetCard(pet, i)).join('');
-    document.getElementById('topMatches').innerHTML = html;
+    matchCards = top3;
+    currentMatchIndex = 0;
+    renderMatchCards();
     showPage('results');
     confettiRain();
     fireworks();
+}
+
+function renderMatchCards() {
+    const container = document.getElementById('matchCardStack');
+    container.innerHTML = '';
+    
+    // 渲染当前 3 张卡片
+    for (let i = 0; i < 3 && currentMatchIndex + i < matchCards.length; i++) {
+        const pet = matchCards[currentMatchIndex + i];
+        const card = createMatchCard(pet, i);
+        container.appendChild(card);
+    }
+    
+    // 如果处理完所有匹配，显示过渡卡
+    if (currentMatchIndex >= matchCards.length) {
+        const transitionCard = createTransitionCard();
+        container.appendChild(transitionCard);
+    }
+}
+
+function createMatchCard(pet, index) {
+    const card = document.createElement('div');
+    card.className = 'match-card';
+    card.setAttribute('data-index', index);
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', `${pet.name}，匹配度 ${pet.finalScore}%`);
+    
+    // 计算匹配度百分比，每个卡片不同
+    const basePercent = [95, 88, 75][index] || 80;
+    const matchPercent = basePercent + Math.floor(Math.random() * 3) - 1;
+    
+    card.innerHTML = `
+        <img src="${pet.image || 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400'}" 
+             alt="${pet.name}" 
+             class="match-card-avatar"
+             onerror="this.src='https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400'">
+        <div class="match-card-name">${pet.name}</div>
+        <div class="match-card-score">${matchPercent}<span>% 匹配</span></div>
+        <div class="match-card-tags">
+            ${pet.tags.slice(0, 3).map(tag => `<span class="match-card-tag">${tag}</span>`).join('')}
+        </div>
+        <div class="match-card-hint">← 滑动跳过 | 点击查看 | 滑动喜欢 →</div>
+    `;
+    
+    if (index === 0) {
+        setupCardInteraction(card, pet);
+    }
+    
+    return card;
+}
+
+function createTransitionCard() {
+    const card = document.createElement('div');
+    card.className = 'match-card transition-card';
+    card.setAttribute('data-index', '0');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', '进入更多宠物');
+    
+    const remainingCount = matchedPets.length - 3;
+    
+    card.innerHTML = `
+        <div class="transition-card-emoji">🐾</div>
+        <div class="transition-card-text">滑动进入更多</div>
+        <div class="transition-card-hint">${remainingCount} 个小可爱在等你</div>
+    `;
+    
+    card.onclick = () => {
+        // 事件钩子: card.enter-pool
+        card.dispatchEvent(new CustomEvent('card.enter-pool', { bubbles: true }));
+        showCardMode();
+    };
+    
+    return card;
+}
+
+function setupCardInteraction(card, pet) {
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let isDragging = false;
+    
+    const handleStart = (e) => {
+        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        isDragging = false;
+    };
+    
+    const handleMove = (e) => {
+        if (!startX) return;
+        currentX = (e.type.includes('mouse') ? e.clientX : e.touches[0].clientX) - startX;
+        const currentY = (e.type.includes('mouse') ? e.clientY : e.touches[0].clientY) - startY;
+        
+        if (Math.abs(currentX) > 10 || Math.abs(currentY) > 10) {
+            isDragging = true;
+        }
+        
+        if (Math.abs(currentX) > Math.abs(currentY) && Math.abs(currentX) > 10) {
+            e.preventDefault();
+            card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.1}deg)`;
+            card.style.transition = 'none';
+        }
+    };
+    
+    const handleEnd = (e) => {
+        if (!startX) return;
+        
+        // 如果没有拖动，点击任意位置进入详情
+        if (!isDragging) {
+            handleOpen(card, pet);
+        } else if (Math.abs(currentX) > 100) {
+            // 滑动超过阈值
+            if (currentX > 0) {
+                handleLike(card, pet);
+            } else {
+                handleSkip(card, pet);
+            }
+        } else {
+            // 恢复位置
+            card.style.transition = 'transform 0.3s';
+            card.style.transform = '';
+        }
+        
+        startX = 0;
+        currentX = 0;
+        isDragging = false;
+    };
+    
+    card.addEventListener('mousedown', handleStart);
+    card.addEventListener('touchstart', handleStart, { passive: true });
+    card.addEventListener('mousemove', handleMove);
+    card.addEventListener('touchmove', handleMove, { passive: false });
+    card.addEventListener('mouseup', handleEnd);
+    card.addEventListener('touchend', handleEnd);
+    card.addEventListener('mouseleave', handleEnd);
+}
+
+function handleLike(card, pet) {
+    // 事件钩子: card.like
+    card.dispatchEvent(new CustomEvent('card.like', { detail: pet, bubbles: true }));
+    
+    card.classList.add('swiping-right');
+    if (!favoritePets.find(p => p.id === pet.id)) {
+        favoritePets.push(pet);
+    }
+    playSound('like');
+    heartExplosion(window.innerWidth / 2, window.innerHeight / 2);
+    celebrate();
+    showToast(`${pet.name}："谢谢你选择我！"`);
+    
+    setTimeout(() => {
+        currentMatchIndex++;
+        renderMatchCards();
+    }, 400);
+}
+
+function handleSkip(card, pet) {
+    // 事件钩子: card.skip
+    card.dispatchEvent(new CustomEvent('card.skip', { detail: pet, bubbles: true }));
+    
+    card.classList.add('swiping-left');
+    sadAnimation();
+    showToast(`${pet.name}："祝你找到更合适的～"`);
+    
+    setTimeout(() => {
+        currentMatchIndex++;
+        renderMatchCards();
+    }, 400);
+}
+
+function handleOpen(card, pet) {
+    card.dispatchEvent(new CustomEvent('card.open', { detail: pet, bubbles: true }));
+    const detailHtml = createPetCard(pet, 0);
+    document.getElementById('topMatches').innerHTML = detailHtml;
+    document.getElementById('topMatches').style.display = 'block';
+    document.getElementById('matchCardStack').style.display = 'none';
+    document.getElementById('backToMatchBtn').style.display = 'block';
+}
+
+function backToMatchCards() {
+    document.getElementById('topMatches').style.display = 'none';
+    document.getElementById('matchCardStack').style.display = 'block';
+    document.getElementById('backToMatchBtn').style.display = 'none';
 }
 
 // 生成匹配原因（更丰富的文案）

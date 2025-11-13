@@ -8,7 +8,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>宠物匹配屋 PetMatch</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style_hero.css">
 </head>
 <body>
     <div id="bgPets"></div>
@@ -22,48 +21,35 @@
     <button class="mute-btn" onclick="toggleMute()" title="静音/取消静音">🔊</button>
     <div id="app">
         <section id="home" class="page active">
-            <div class="hero-new">
-                <div class="greeting" id="greeting"></div>
-                
-                <div class="hero-content">
-                    <h1 class="hero-title">🐾 宠物匹配屋</h1>
-                    <p class="hero-subtitle">帮你遇见命中注定的小可爱</p>
-                    <p class="hero-desc">2 个小问题 → 为你挑选 3 张最适合你的宠物卡片</p>
-                    
-                    <div class="card-stack-hero">
-                        <div class="hero-card hero-card-3">
-                            <div class="hero-card-inner">
-                                <div class="hero-card-emoji">🐼</div>
-                                <div class="hero-card-name">小熊</div>
-                            </div>
-                        </div>
-                        <div class="hero-card hero-card-2">
-                            <div class="hero-card-inner">
-                                <div class="hero-card-emoji">🐶</div>
-                                <div class="hero-card-name">旺仔</div>
-                            </div>
-                        </div>
-                        <div class="hero-card hero-card-1">
-                            <div class="hero-card-inner">
-                                <div class="hero-card-emoji">🐱</div>
-                                <div class="hero-card-name">小桔</div>
-                                <div class="hero-card-hint">← 滑动选择 →</div>
-                            </div>
-                        </div>
+            <div class="container">
+                <div class="hero">
+                    <div class="greeting" id="greeting"></div>
+                    <h1 class="logo" onclick="confettiRain()">🐾 宠物匹配屋</h1>
+                    <p class="subtitle">帮你遇见命中注定的那只毛孩子~</p>
+                    <div class="pet-illustration">
+                        <span class="pet-icon" onclick="playSound('like');heartExplosion(event.pageX, event.pageY)">🐱</span>
+                        <span class="pet-icon" onclick="playSound('like');heartExplosion(event.pageX, event.pageY)">🐶</span>
                     </div>
+                    <button class="btn-primary" onclick="startQuiz()">开始匹配</button>
+                    <p class="quiz-hint">填写两道趣味问卷 → 我们为你筛出 3 个最匹配的宠物卡片</p>
                     
-                    <button class="btn-hero-primary" onclick="startQuiz()">
-                        <span class="btn-glow"></span>
-                        开始匹配
-                    </button>
-                    
-                    <div class="quick-entry">
-                        <div class="quick-card" onclick="quickStartCard()">
-                            <span class="quick-emoji">🐾</span>
+                    <div class="card-preview-section">
+                        <div class="card-stack-preview" onclick="quickStartCard()">
+                            <div class="preview-card preview-card-back">
+                                <div class="preview-content">
+                                    <div class="preview-emoji">🐶</div>
+                                    <div class="preview-name">神秘宠物</div>
+                                </div>
+                            </div>
+                            <div class="preview-card preview-card-front">
+                                <div class="preview-content">
+                                    <div class="preview-emoji">🐱</div>
+                                    <div class="preview-name">来挑我吧~</div>
+                                    <div class="preview-hint">点击开始</div>
+                                </div>
+                            </div>
                         </div>
-                        <button class="btn-quick" onclick="quickStartCard()">
-                            先抽一张看看 😺
-                        </button>
+                        <button class="btn-card-cta" onclick="quickStartCard()">🐾 更多小可爱</button>
                     </div>
                 </div>
             </div>
@@ -92,8 +78,6 @@
                 </div>
                 
                 <div id="topMatches" class="top-matches" style="display:none;"></div>
-                
-                <button id="backToMatchBtn" class="btn-secondary" onclick="backToMatchCards()" style="display:none; margin-top: 20px;">返回</button>
             </div>
         </section>
 
