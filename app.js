@@ -350,7 +350,7 @@ function renderQuestion() {
     
     if (currentQuestion === 0) {
         const html = `
-            <h2 class="question-title">首先，告诉我你的名字吧～</h2>
+            <h2 class="question-title">先认识一下你吧～</h2>
             <input type="text" class="name-input" id="nameInput" placeholder="请输入你的名字" />
             <button class="btn-primary" onclick="submitName()">下一步</button>
         `;
@@ -770,6 +770,10 @@ let usedLikeMessages = [];
 let usedSkipMessages = [];
 
 function likeCard() {
+    const card = document.querySelector('.swipe-card');
+    if (card) {
+        card.style.animation = 'cardSwipeLeft 0.5s ease-out forwards';
+    }
     const pet = matchedPets[currentCardIndex];
     if (!favoritePets.find(p => p.id === pet.id)) {
         favoritePets.push(pet);
@@ -793,7 +797,17 @@ function likeCard() {
         `${pet.name}："你的眼光真好，选中了我！"`,
         `${pet.name}："我一定不会让你失望的！"`,
         `${pet.name}："这是我最幸福的时刻！"`,
-        `${pet.name}："${userName}，我爱你！"`
+        `${pet.name}："${userName}，我爱你！"`,
+        `${pet.name}："我会每天都让你开心的！"`,
+        `${pet.name}："${userName}，你是我的全世界！"`,
+        `${pet.name}："我们一起创造美好回忆吧！"`,
+        `${pet.name}："感谢命运让我遇见你！"`,
+        `${pet.name}："你就是我一直在等待的人！"`,
+        `${pet.name}："${userName}，我会守护你的！"`,
+        `${pet.name}："我们的缘分天注定！"`,
+        `${pet.name}："每天都想和你在一起！"`,
+        `${pet.name}："你是我见过最好的人！"`,
+        `${pet.name}："${userName}，让我来照顾你吧！"`
     ];
     const availableMessages = messages.filter(m => !usedLikeMessages.includes(m));
     const selectedMessage = availableMessages.length > 0 ? 
@@ -809,6 +823,10 @@ function likeCard() {
 }
 
 function skipCard() {
+    const card = document.querySelector('.swipe-card');
+    if (card) {
+        card.style.animation = 'cardSwipeRight 0.5s ease-out forwards';
+    }
     const pet = matchedPets[currentCardIndex];
     sadAnimation();
     const messages = [
@@ -826,7 +844,17 @@ function skipCard() {
         `${pet.name}："每个人都有自己的缘分呢～"`,
         `${pet.name}："没事的，我会继续等待的！"`,
         `${pet.name}："${userName}，要记得我哦～"`,
-        `${pet.name}："也许以后还有机会相遇！"`
+        `${pet.name}："也许以后还有机会相遇！"`,
+        `${pet.name}："不勉强才是最好的选择。"`,
+        `${pet.name}："我会继续等待我的主人！"`,
+        `${pet.name}："${userName}，保重，一路顺风！"`,
+        `${pet.name}："每个生命都有属于自己的家。"`,
+        `${pet.name}："谢谢你给我这次机会！"`,
+        `${pet.name}："不后悔，因为这是你的选择。"`,
+        `${pet.name}："我会在这里等待真命天子！"`,
+        `${pet.name}："${userName}，希望你找到真爱！"`,
+        `${pet.name}："虽然遗憾，但我尊重你的决定。"`,
+        `${pet.name}："再见了，愿你幸福快乐！"`
     ];
     const availableMessages = messages.filter(m => !usedSkipMessages.includes(m));
     const selectedMessage = availableMessages.length > 0 ? 

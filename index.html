@@ -11,10 +11,10 @@
 </head>
 <body>
     <div id="bgPets"></div>
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
         <source src="01e887579d82afe0010370019855730738_130.mp4" type="audio/mp4">
     </audio>
-    <audio id="cardMusic" loop>
+    <audio id="cardMusic" loop preload="auto">
         <source src="01e5a74ffeda22ed0103700197f1d6ed29_130.mp4" type="audio/mp4">
     </audio>
     <button class="home-btn" onclick="goHome()" title="回到首页">🏠</button>
@@ -25,7 +25,7 @@
                 <div class="hero">
                     <div class="greeting" id="greeting"></div>
                     <h1 class="logo" onclick="confettiRain()">🐾 宠物匹配屋</h1>
-                    <p class="subtitle">像恋爱匹配一样，找到最适合你的毛孩子</p>
+                    <p class="subtitle">帮你遇见命中注定的那只毛孩子~</p>
                     <div class="pet-illustration">
                         <span class="pet-icon" onclick="playSound('like');heartExplosion(event.pageX, event.pageY)">🐱</span>
                         <span class="pet-icon" onclick="playSound('like');heartExplosion(event.pageX, event.pageY)">🐶</span>
@@ -51,8 +51,8 @@
 
         <section id="results" class="page">
             <div class="container">
-                <h2 class="section-title">✨ 为你找到了3个最佳匹配</h2>
-                <button class="btn-more" onclick="showCardMode()">查看更多宠物</button>
+                <h2 class="section-title">💗 你的“宠物心动清单”来了！</h2>
+                <button class="btn-more" onclick="showCardMode()">更多小可爱</button>
                 <div id="topMatches" class="top-matches"></div>
             </div>
         </section>
