@@ -365,9 +365,19 @@ function renderQuestion() {
                     </div>
                 `).join('')}
             </div>
-            <button class="skip-btn" onclick="skipQuestion()">跳过此题</button>
+            <div class="quiz-buttons">
+                ${currentQuestion > 1 ? '<button class="back-btn" onclick="previousQuestion()">← 上一题</button>' : ''}
+                <button class="skip-btn" onclick="skipQuestion()">跳过此题</button>
+            </div>
         `;
         document.getElementById('quizContent').innerHTML = html;
+    }
+}
+
+function previousQuestion() {
+    if (currentQuestion > 1) {
+        currentQuestion--;
+        renderQuestion();
     }
 }
 

@@ -319,6 +319,13 @@ body {
     margin-bottom: 40px;
 }
 
+.quiz-hint {
+    font-size: 0.85em;
+    color: #999;
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
 .pet-illustration {
     font-size: 5em;
     margin: 40px 0;
@@ -547,8 +554,14 @@ body {
     height: 300px;
 }
 
-.skip-btn {
+.quiz-buttons {
+    display: flex;
+    gap: 10px;
     margin-top: 15px;
+    justify-content: center;
+}
+
+.skip-btn {
     background: #E0E0E0;
     color: #666;
     padding: 12px 30px;
@@ -560,6 +573,22 @@ body {
 
 .skip-btn:hover {
     background: #D0D0D0;
+}
+
+.back-btn {
+    background: #FFE5D9;
+    color: #FF6A88;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: #FFD0C4;
+    transform: translateX(-2px);
 }
 
 .option:hover {
