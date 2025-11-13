@@ -88,8 +88,9 @@ if (!isMobile) {
 }
 
 function confettiRain() {
+    if (isMobile) return;
     const colors = ['#FF6B6B', '#4ECDC4', '#FFD93D', '#95E1D3', '#F38181', '#AA96DA'];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 20; i++) {
         setTimeout(() => {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
