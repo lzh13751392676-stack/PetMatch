@@ -11,7 +11,14 @@
 </head>
 <body>
     <div id="bgPets"></div>
+    <audio id="bgMusic" loop>
+        <source src="01e887579d82afe0010370019855730738_130.mp4" type="audio/mp4">
+    </audio>
+    <audio id="cardMusic" loop>
+        <source src="01e5a74ffeda22ed0103700197f1d6ed29_130.mp4" type="audio/mp4">
+    </audio>
     <button class="home-btn" onclick="goHome()" title="回到首页">🏠</button>
+    <button class="mute-btn" onclick="toggleMute()" title="静音/取消静音">🔊</button>
     <div id="app">
         <section id="home" class="page active">
             <div class="container">

@@ -295,10 +295,32 @@ function showToast(message) {
 
 function startQuiz() {
     playSound('click');
+    const bgMusic = document.getElementById('bgMusic');
+    bgMusic.volume = 0.3;
+    bgMusic.play().catch(() => {});
+    document.querySelector('.mute-btn').classList.add('show');
     currentQuestion = 0;
     userAnswers = {};
     showPage('quiz');
     renderQuestion();
+}
+
+let isMuted = false;
+
+function toggleMute() {
+    const bgMusic = document.getElementById('bgMusic');
+    const cardMusic = document.getElementById('cardMusic');
+    const muteBtn = document.querySelector('.mute-btn');
+    isMuted = !isMuted;
+    bgMusic.muted = isMuted;
+    cardMusic.muted = isMuted;
+    if (isMuted) {
+        muteBtn.textContent = '🔇';
+        muteBtn.classList.add('muted');
+    } else {
+        muteBtn.textContent = '🔊';
+        muteBtn.classList.remove('muted');
+    }
 }
 
 // 渲染问题
@@ -393,6 +415,12 @@ function calculateMatches() {
 }
 
 function showResults() {
+    const bgMusic = document.getElementById('bgMusic');
+    const cardMusic = document.getElementById('cardMusic');
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+    cardMusic.pause();
+    cardMusic.currentTime = 0;
     const top3 = matchedPets.slice(0, 3);
     const html = top3.map((pet, i) => createPetCard(pet, i)).join('');
     document.getElementById('topMatches').innerHTML = html;
@@ -486,6 +514,12 @@ function createPetCard(pet, index = 0) {
 }
 
 function showCardMode() {
+    const bgMusic = document.getElementById('bgMusic');
+    const cardMusic = document.getElementById('cardMusic');
+    bgMusic.pause();
+    cardMusic.volume = 0.3;
+    cardMusic.muted = isMuted;
+    cardMusic.play().catch(() => {});
     currentCardIndex = 3;
     document.getElementById('cardModeTitle').textContent = `${userName}的挑宠物之旅 🐾`;
     showPage('cardMode');
@@ -504,13 +538,13 @@ function showCardMode() {
 // 随机抽取宠物
 function randomDraw() {
     const stack = document.getElementById('cardStack');
-    stack.innerHTML = '<div class="swipe-hint"><p style="text-align:center;color:#FF9A8B;font-size:2em;">抽取中...</p></div>';
     
-    try {
-        const raffleAudio = new Audio('raffle.wav');
-        raffleAudio.volume = 0.5;
-        raffleAudio.play().catch(() => {});
-    } catch(e) {}
+    const raffleAudio = new Audio('raffle.wav');
+    raffleAudio.volume = 0.5;
+    raffleAudio.load();
+    raffleAudio.play().catch(() => {});
+    
+    stack.innerHTML = '<div class="swipe-hint"><p style="text-align:center;color:#FF9A8B;font-size:2em;">抽取中...</p></div>';
     
     let spinCount = 0;
     const spinInterval = setInterval(() => {
