@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>宠物匹配屋 PetMatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="bgPets"></div>
+    <button class="home-btn" onclick="goHome()" title="回到首页">🏠</button>
+    <div id="app">
+        <section id="home" class="page active">
+            <div class="container">
+                <div class="hero">
+                    <div class="greeting" id="greeting"></div>
+                    <h1 class="logo" onclick="confettiRain()">🐾 宠物匹配屋</h1>
+                    <p class="subtitle">像恋爱匹配一样，找到最适合你的毛孩子</p>
+                    <div class="pet-illustration">
+                        <span class="pet-icon" onclick="playSound('like');heartExplosion(event.pageX, event.pageY)">🐱</span>
+                        <span class="pet-icon" onclick="playSound('like');heartExplosion(event.pageX, event.pageY)">🐶</span>
+                    </div>
+                    <button class="btn-primary" onclick="startQuiz()">开始匹配</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="page">
+            <div class="container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div class="quiz-content" id="quizContent"></div>
+                <button class="btn-text" onclick="skipAllQuestions()" style="margin-top:20px;text-align:center;display:block;">一键跳过所有问题</button>
+            </div>
+        </section>
+
+        <section id="results" class="page">
+            <div class="container">
+                <h2 class="section-title">✨ 为你找到了3个最佳匹配</h2>
+                <div id="topMatches" class="top-matches"></div>
+                <button class="btn-secondary" onclick="showCardMode()">查看更多宠物</button>
+            </div>
+        </section>
+
+        <section id="cardMode" class="page">
+            <div class="container">
+                <div class="header-container">
+                    <h2 class="page-header" id="cardModeTitle"></h2>
+                    <button class="btn-random" onclick="randomDraw()">🎰 随机抽取</button>
+                </div>
+                <div class="swipe-guide" id="swipeGuide">
+                    <div class="guide-content">
+                        <div class="guide-icon">👈</div>
+                        <p>左滑喜欢</p>
+                    </div>
+                    <div class="guide-content">
+                        <div class="guide-icon">👆</div>
+                        <p>上下滚动查看</p>
+                    </div>
+                    <div class="guide-content">
+                        <div class="guide-icon">👉</div>
+                        <p>右滑跳过</p>
+                    </div>
+                </div>
+                <div class="card-stack" id="cardStack"></div>
+                <div class="card-actions">
+                    <button class="btn-icon btn-skip" onclick="skipCard()">💨</button>
+                    <button class="btn-icon btn-like" onclick="likeCard()">❤️</button>
+                </div>
+                <button class="btn-favorites" onclick="showFavorites()">
+                    <span class="dog-body">🥮🥮🥮</span>
+                    <span class="btn-text-content">查看待选列表</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="favorites" class="page">
+            <div class="container">
+                <h2 class="section-title">💕 我的待选列表</h2>
+                <div id="favoritesList" class="favorites-grid"></div>
+                <button class="btn-secondary" onclick="showCardMode()">继续浏览</button>
+            </div>
+        </section>
+
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="data2.js"></script>
+    <script src="data3.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.getElementById('greeting').textContent = getGreeting();
+        document.addEventListener('click', e => {
+            if (e.target.matches('.btn-primary, .btn-secondary, .btn-icon')) createRipple(e);
+        });
+    </script>
+</body>
+</html>
