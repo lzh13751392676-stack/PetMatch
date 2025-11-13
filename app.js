@@ -290,7 +290,7 @@ function showToast(message) {
     const toast = document.getElementById('toast');
     toast.textContent = message;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+    setTimeout(() => toast.classList.remove('show'), 5000);
 }
 
 function startQuiz() {
@@ -710,6 +710,9 @@ function renderCard() {
     stack.appendChild(card);
 }
 
+let usedLikeMessages = [];
+let usedSkipMessages = [];
+
 function likeCard() {
     const pet = matchedPets[currentCardIndex];
     if (!favoritePets.find(p => p.id === pet.id)) {
@@ -729,11 +732,24 @@ function likeCard() {
         `${pet.name}："太开心了！我们会很幸福的！"`,
         `${pet.name}："${userName}，你做了最棒的选择！"`,
         `${pet.name}："我保证会是你最好的朋友！"`,
-        `${pet.name}："从今天起，我就是你的小宝贝啦！"`
+        `${pet.name}："从今天起，我就是你的小宝贝啦！"`,
+        `${pet.name}："${userName}，我们终于在一起了！"`,
+        `${pet.name}："你的眼光真好，选中了我！"`,
+        `${pet.name}："我一定不会让你失望的！"`,
+        `${pet.name}："这是我最幸福的时刻！"`,
+        `${pet.name}："${userName}，我爱你！"`
     ];
-    showToast(messages[Math.floor(Math.random() * messages.length)]);
-    currentCardIndex++;
-    renderCard();
+    const availableMessages = messages.filter(m => !usedLikeMessages.includes(m));
+    const selectedMessage = availableMessages.length > 0 ? 
+        availableMessages[Math.floor(Math.random() * availableMessages.length)] : 
+        messages[Math.floor(Math.random() * messages.length)];
+    usedLikeMessages.push(selectedMessage);
+    if (usedLikeMessages.length > 10) usedLikeMessages.shift();
+    showToast(selectedMessage);
+    setTimeout(() => {
+        currentCardIndex++;
+        renderCard();
+    }, 2000);
 }
 
 function skipCard() {
@@ -749,11 +765,24 @@ function skipCard() {
         `${pet.name}："不是每段缘分都能开花结果呢..."`,
         `${pet.name}："我会找到真正懂我的人的！"`,
         `${pet.name}："也许下一个会更适合你～"`,
-        `${pet.name}："谢谢你认真考虑过我，再见啦～"`
+        `${pet.name}："谢谢你认真考虑过我，再见啦～"`,
+        `${pet.name}："理解你的选择，祝好运！"`,
+        `${pet.name}："每个人都有自己的缘分呢～"`,
+        `${pet.name}："没事的，我会继续等待的！"`,
+        `${pet.name}："${userName}，要记得我哦～"`,
+        `${pet.name}："也许以后还有机会相遇！"`
     ];
-    showToast(messages[Math.floor(Math.random() * messages.length)]);
-    currentCardIndex++;
-    renderCard();
+    const availableMessages = messages.filter(m => !usedSkipMessages.includes(m));
+    const selectedMessage = availableMessages.length > 0 ? 
+        availableMessages[Math.floor(Math.random() * availableMessages.length)] : 
+        messages[Math.floor(Math.random() * messages.length)];
+    usedSkipMessages.push(selectedMessage);
+    if (usedSkipMessages.length > 10) usedSkipMessages.shift();
+    showToast(selectedMessage);
+    setTimeout(() => {
+        currentCardIndex++;
+        renderCard();
+    }, 2000);
 }
 
 // 显示待选列表

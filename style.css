@@ -1237,6 +1237,23 @@ body {
     animation: shine 3s linear infinite;
 }
 
+.copyright {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 0.75em;
+    color: #FF9A8B;
+    opacity: 0.6;
+    z-index: 999;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent 0%, #FF9A8B 50%, transparent 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine 3s linear infinite;
+}
+
 @keyframes shine {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
